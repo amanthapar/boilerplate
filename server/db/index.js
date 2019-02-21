@@ -1,15 +1,11 @@
-const Sequelize = require('sequelize');
+const db = require('./database');
 
-const db = new Sequelize(
-  process.env.DATABASE_URL || 'postgres://localhost:5432:boilermaker',
-  {
-    logging: false, // unless you like the logs
-  }
-);
+//import db models here
 
-//require models
+//associations here
 
-// associations
+module.exports = {
+  // Include your models in this exports object as well!
 
-// export models and db
-module.exports = { db };
+  db,
+};
