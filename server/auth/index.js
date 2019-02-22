@@ -3,6 +3,8 @@ const { User } = require('../db');
 const passportService = require('./passport');
 module.exports = router;
 
+router.use('/google', require('./google'));
+
 // /auth/login
 router.post('/login', async (req, res, next) => {
   try {

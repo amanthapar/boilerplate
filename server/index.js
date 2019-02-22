@@ -6,6 +6,8 @@ const app = express();
 const session = require('express-session');
 const passport = require('passport');
 
+if (process.env.NODE_ENV !== 'production') require('../secrets');
+
 // Logging middleware
 app.use(morgan('dev'));
 
