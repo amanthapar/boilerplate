@@ -3,8 +3,8 @@ const path = require('path');
 const morgan = require('morgan');
 const { db } = require('./db');
 const app = express();
-// const session = require('express-session');
-// const passport = require('passport');
+const session = require('express-session');
+const passport = require('passport');
 
 // Logging middleware
 app.use(morgan('dev'));
@@ -13,26 +13,17 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// // Session middleware
-// app.use(
-//   session({
-//     secret: 'This is not a very secure secret...',
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
+// Session middleware
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'This is not a very secure secret...',
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
-// // Session middleware
-// app.use(
-//   session({
-//     secret: 'This is not a very secure secret...',
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
-
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Static middleware
 app.use(express.static(path.join(__dirname, '..', 'public')));
@@ -40,6 +31,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 // authentication router
 // app.use('/auth', require('./auth'));
 
+//api router
 app.use('/api', require('./api'));
 
 // For all GET requests that aren't to an API route,
@@ -61,8 +53,8 @@ app.use((err, req, res, next) => {
   res.send(err.message || 'Internal server error');
 });
 
+// move to main dir?
 const port = process.env.PORT || 3000;
-
 const init = async () => {
   await db.sync({ force: true });
   app.listen(port, () => {
