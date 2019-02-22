@@ -28,8 +28,8 @@ app.use(passport.session());
 // Static middleware
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// authentication router
-// app.use('/auth', require('./auth'));
+//authentication router
+app.use('/auth', require('./auth'));
 
 //api router
 app.use('/api', require('./api'));
@@ -56,7 +56,7 @@ app.use((err, req, res, next) => {
 // move to main dir?
 const port = process.env.PORT || 3000;
 const init = async () => {
-  await db.sync({ force: true });
+  await db.sync({ force: false });
   app.listen(port, () => {
     console.log(`Your server, listening on port ${port}`);
   });
